@@ -76,7 +76,6 @@ $scope.loginData = {};
 })
 
 .controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+ $scope.miFoto = 'img/miFoto.png';
+
 });
