@@ -68,10 +68,11 @@ $scope.loginData = {};
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('TriviaCtrl', function($stateParams) {
+.controller('TriviaCtrl', function($scope, $stateParams) {
   //$scope.chat = Chats.get($stateParams.name);
-  alert("hola");
-  console.log($stateParams);
+ 
+ $scope.usuario = $stateParams.name;
+  console.log($stateParams.name);
 })
 
 .controller('AccountCtrl', function($scope) {
