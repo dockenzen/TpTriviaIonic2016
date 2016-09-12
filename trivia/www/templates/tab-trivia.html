@@ -1,9 +1,18 @@
 <ion-view view-title="Trivia">
-  <ion-content>
-    <ion-list>
-    <p>Hola</p>
-  
- 
-    </ion-list>
+  <ion-content class="padding">
+    <center><h1>{{preguntasYrespuestas[0].pregunta}}</h1></center>
+
+    <button class="button button-block button-positive" ng-click="esCorrecta(1)">
+    	{{preguntasYrespuestas[0].rta1}}
+	</button>
+
+	<button class="button button-block button-positive" ng-click="esCorrecta(2)">
+    	{{preguntasYrespuestas[0].rta2}}
+	</button>
+
+	<button class="button button-block button-positive" ng-click="esCorrecta(3)">
+    	{{preguntasYrespuestas[0].rta3}}
+	</button>
+
   </ion-content>
 </ion-view>

@@ -111,12 +111,46 @@ var messagesRef = new Firebase('https://primerfirebase-a52b4.firebaseio.com/');
 
 
 })
+/*XMLHttpRequest cannot load http://www.mocky.io/v2/5185415ba171ea3a00704eed. 
+No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin
+ 'http://localhost:8100' is therefore not allowed access. 
 
-.controller('TriviaCtrl', function($scope, $stateParams) {
+PREGUNTAR A OCTAVIO QUE ONDA CON ESTO, PORQUE EN FIREBASE TMB LO TIRABA
+ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi146
+
+
+ */
+
+
+.controller('TriviaCtrl', function($scope, $stateParams,$http) {
   //$scope.chat = Chats.get($stateParams.name);
  //llega el nombre de usuario actual
  $scope.usuario = $stateParams.name;
  // console.log($stateParams.name);
+
+  // json con preguntas y respuestas
+  // http://www.mocky.io/v2/57d61b83110000a81628ccf2
+
+  $http.get('http://www.mocky.io/v2/57d61b83110000a81628ccf2')
+  .then(function(respuesta) {       
+
+         $scope.preguntasYrespuestas = respuesta.data;
+         //console.log(respuesta.data);
+
+    },function (error) {
+         $scope.preguntasYrespuestas = [];
+        console.log( error);
+        
+   });
+
+  $scope.esCorrecta = function(opcion)
+  {
+      if($scope.preguntasYrespuestas[0].correcta == opcion)
+        alert("eaaaa");
+      else 
+        alert("mal");
+  };
+
 })
 
 .controller('AccountCtrl', function($scope) {
