@@ -10,5 +10,18 @@
     <p>
       {{chat.lastText}}
     </p>
+
+
   </ion-content>
+      <ion-footer-bar keyboard-attach class="item-input-inset">
+          <label class="item-input-wrapper">
+            <i class="icon ion-ios7-search placeholder-icon"></i>
+            <input type="text" placeholder="Mensaje" ng-model="message">
+          </label>
+          <a class="button" ng-click="enviarMensaje()">
+            Enviar
+          </a>
+  </ion-footer-bar>
+       
+
 </ion-view>
