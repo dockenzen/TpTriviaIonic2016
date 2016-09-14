@@ -126,6 +126,7 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
   //$scope.chat = Chats.get($stateParams.name);
  //llega el nombre de usuario actual
  $scope.usuario = $stateParams.name;
+  var i = 0;
  // console.log($stateParams.name);
 
   // json con preguntas y respuestas
@@ -135,6 +136,8 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
   .then(function(respuesta) {       
 
          $scope.preguntasYrespuestas = respuesta.data;
+         $scope.preg = $scope.preguntasYrespuestas[0];
+
          //console.log(respuesta.data);
 
     },function (error) {
@@ -146,11 +149,19 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
 
   $scope.esCorrecta = function(opcion)
   {
-      if($scope.preguntasYrespuestas[1].correcta == opcion)
+    
+      if($scope.preguntasYrespuestas[i].correcta == opcion)
         alert("eaaaa");
       else 
         alert("mal");
       //proxima pregunta
+      i++;
+      $scope.preg = $scope.preguntasYrespuestas[i];
+      if(i==4)
+      {
+          //saliendo
+      }
+
   };
 
 })
