@@ -116,7 +116,7 @@ No 'Access-Control-Allow-Origin' header is present on the requested resource. Or
  'http://localhost:8100' is therefore not allowed access. 
 
 PREGUNTAR A OCTAVIO QUE ONDA CON ESTO, PORQUE EN FIREBASE TMB LO TIRABA
- https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi146
+https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi/related
 
 
  */
@@ -129,9 +129,9 @@ PREGUNTAR A OCTAVIO QUE ONDA CON ESTO, PORQUE EN FIREBASE TMB LO TIRABA
  // console.log($stateParams.name);
 
   // json con preguntas y respuestas
-  // http://www.mocky.io/v2/57d61b83110000a81628ccf2
+  // http://www.mocky.io/v2/57d8b1c60f00005c11831471
 
-  $http.get('http://www.mocky.io/v2/57d61b83110000a81628ccf2')
+  $http.get('http://www.mocky.io/v2/57d8b1c60f00005c11831471')
   .then(function(respuesta) {       
 
          $scope.preguntasYrespuestas = respuesta.data;
@@ -140,15 +140,17 @@ PREGUNTAR A OCTAVIO QUE ONDA CON ESTO, PORQUE EN FIREBASE TMB LO TIRABA
     },function (error) {
          $scope.preguntasYrespuestas = [];
         console.log( error);
+        $scope.index = 0;
         
    });
 
   $scope.esCorrecta = function(opcion)
   {
-      if($scope.preguntasYrespuestas[0].correcta == opcion)
+      if($scope.preguntasYrespuestas[1].correcta == opcion)
         alert("eaaaa");
       else 
         alert("mal");
+      //proxima pregunta
   };
 
 })
