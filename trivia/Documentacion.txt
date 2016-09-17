@@ -1,0 +1,14 @@
+
+//Para enviar email
+cordova plugin add https://github.com/jcjee/email-composer.git
+
+//para abrir url externas
+cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git
+
+Code	Description
+window.open(‘http://example.com’, ‘_system’);	Loads in the system browser
+window.open(‘http://example.com’, ‘_blank’);	Loads in the InAppBrowser
+window.open(‘http://example.com’, ‘_blank’, ‘location=no’);	Loads in the InAppBrowser with no location bar
+window.open(‘http://example.com’, ‘_self’);	Loads in the Cordova web view
+
+//

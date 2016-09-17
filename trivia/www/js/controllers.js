@@ -50,6 +50,41 @@ $scope.loginData = {};
    };
 })
 
+.controller('WhatToDoController', function ($scope, $state) {
+  //console.log("llego");
+
+/**
+ * Sends an email using Email composer with attachments plugin and using
+ * parameter email.
+ *
+ * @param email
+ */
+$scope.sendEmail = function (email) {
+  if (window.plugins && window.plugins.emailComposer) { //check if plugin exists
+
+    window.plugins.emailComposer.showEmailComposerWithCallback(function (result) {
+        console.log("Email sent successfully");
+      },    
+
+      "Ionic Proyect",        // Subject
+      " Buenas",        // Body
+      [email],     // To (Email to send)
+      "pepito@adas.com",        // CC
+      null,        // BCC
+      true,       // isHTML
+      null,        // Attachments
+      null);       // Attachment Data
+
+
+  }
+  else
+  {
+    console.log("no tan los plugins");
+  }
+
+}
+})
+
 .controller('ChatsCtrl', function($scope, Chats,$timeout) {
 
 var messagesRef = new Firebase('https://primerfirebase-a52b4.firebaseio.com/');
@@ -122,10 +157,11 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
  */
 
 
-.controller('TriviaCtrl', function($scope, $stateParams,$http) {
+.controller('TriviaCtrl', function($ionicPopup,$scope, $stateParams,$http) {
   //$scope.chat = Chats.get($stateParams.name);
  //llega el nombre de usuario actual
  $scope.usuario = $stateParams.name;
+ var puntaje = 0;
   var i = 0;
  // console.log($stateParams.name);
 
@@ -151,19 +187,33 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
   {
     
       if($scope.preguntasYrespuestas[i].correcta == opcion)
-        alert("eaaaa");
+        {
+          alert("eaaaa");
+          puntaje += 100;
+        }
       else 
-        alert("mal");
+        {
+          alert("mal");          
+        }
       //proxima pregunta
       i++;
       $scope.preg = $scope.preguntasYrespuestas[i];
       if(i==4)
       {
-          //saliendo
+      //ESCRIBIR USUARIO + PUNTAJE EN FIREBASE        
+          $scope.showAlert(puntaje +" puntos para el usuario " + $scope.usuario);        
       }
 
   };
 
+  $scope.showAlert = function(resultado) {
+      var alertPopup = $ionicPopup.alert({
+         title: resultado
+      });
+      alertPopup.then(function(res) {
+         // Custom functionality....
+      });
+   };
 })
 
 .controller('AccountCtrl', function($scope) {

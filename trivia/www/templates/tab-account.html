@@ -1,4 +1,4 @@
-<ion-view view-title="Abbout">
+<ion-view view-title="Acerca de..">
   <ion-content class="padding">
     <a class="item item-thumbnail-left" href="#">
     <img ng-src="{{miFoto}}">
@@ -7,7 +7,7 @@
     </ion-item>
     <div class="list">
     <h1>Contacto</h1>
-	  <a class="item item-icon-left" href="#">
+	  <a class="item item-icon-left" ui-sref="email">  
 	    <i class="icon ion-email"></i>
 	    <h3>lenibaldassarre@gmail.com</h3>
 	  </a>
@@ -16,7 +16,7 @@
 		Llamarle
     		<i class="icon ion-ios-telephone-outline"></i>
   		</a>
-	<a class="item item-icon-left" href="http://www.github.com/dockenzen">
+	<a class="item item-icon-left" onclick="window.open('http://www.github.com/dockenzen', '_system', 'location=yes'); return false;" href="#">
     	<i class="icon ion-person-stalker"></i>
     		GitHub: dockenzen
     	<span class="badge badge-assertive">15</span>
