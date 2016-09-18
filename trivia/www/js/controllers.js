@@ -336,11 +336,11 @@ $scope.mejoresPuntajes = [];
     $cordovaFile.checkDir(cordova.file.externalApplicationStorageDirectory, $scope.usuario)
       .then(function (success) {
         // success
-            $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory+"/"+ $scope.usuario, archivo)
+            $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory+ $scope.usuario, archivo)
               .then(function (success) {
                // success
                     // READ
-                    $cordovaFile.readAsText(cordova.file.externalApplicationStorageDirectory+"/"+ $scope.usuario, archivo)
+                    $cordovaFile.readAsText(cordova.file.externalApplicationStorageDirectory+ $scope.usuario, archivo)
                       .then(function (success) {
                         // success
                         $scope.mejoresPuntajes.push(success);
