@@ -70,6 +70,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
       }
     })
 
+    .state('tab.devicemotion', {
+      url: '/devicemotion',
+      views: {
+        'tab-devicemotion': {
+          templateUrl: 'templates/tab-devicemotion.html',
+          controller: 'DeviceMotionCtrl'
+        }
+      }
+    })
+
     .state('tab.chat-detail', {
       url: '/chats/:chatId',
       views: {

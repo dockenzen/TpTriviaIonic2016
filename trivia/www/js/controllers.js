@@ -157,7 +157,7 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
  */
 
 
-.controller('TriviaCtrl', function($ionicPopup,$scope, $stateParams,$http) {
+.controller('TriviaCtrl', function($ionicPopup,$scope, $stateParams,$http,$state) {
   //$scope.chat = Chats.get($stateParams.name);
  //llega el nombre de usuario actual
  $scope.usuario = $stateParams.name;
@@ -202,6 +202,8 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
       {
       //ESCRIBIR USUARIO + PUNTAJE EN FIREBASE        
           $scope.showAlert(puntaje +" puntos para el usuario " + $scope.usuario);        
+          $state.go("tab.deviceMotion");
+
       }
 
   };
@@ -215,6 +217,65 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
       });
    };
 })
+
+
+.controller('DeviceMotionCtrl', function($scope,$cordovaDeviceMotion) {
+ // $scope.chat = Chats.get($stateParams.chatId);
+
+//margen tamaño y movimiento
+
+$scope.imagen = "img/images.jpg";
+var img = document.getElementById('foto'); 
+
+$scope.altura = 0;
+$scope.ancho = 0;
+  var options = { frequency: 10 };
+
+ 
+//window.innerHTML = -LA MITAD
+   var watch = $cordovaDeviceMotion.watchAcceleration(options);
+    watch.then(
+      null,
+      function(error) {
+      
+      console.log(error);
+
+      // An error occurred
+      },
+      function(result) {        
+        var X = result.x;
+        var Y = result.y;
+        var Z = result.z;
+        var timeStamp = result.timestamp;
+
+       if(X >= 0 && ((X  * 37.795275591) < (window.innerWidth - img.clientWidth)))
+        {
+
+          $scope.altura = parseFloat(X);
+          $scope.a = ($scope.altura  * 37.795275591);
+          $scope.altura = $scope.altura +"cm";
+        }
+        if(Y >= 0 && (((Y * 37.795275591)+100) < (window.innerHeight - img.clientHeight)))
+        {
+        $scope.ancho = parseFloat(Y);        
+        $scope.b = (($scope.ancho  * 37.795275591)+100);
+        $scope.ancho = $scope.ancho +"cm";
+        }
+       /*con z se da vuelta
+        //if(Z > $scope.z )
+        //{
+          $scope.z = parseFloat(Z);
+          $scope.c = $scope.z;
+          $scope.z = $scope.z +"px";
+        //}
+        $scope.scy =window.innerHeight;
+        $scope.scx =window.innerWidth;
+        $scope.fotow = img.clientWidth
+        $scope.fotoh = img.clientHeight;
+*/
+            });   
+})
+
 
 .controller('AccountCtrl', function($scope) {
  $scope.miFoto = 'img/miFoto.png';
