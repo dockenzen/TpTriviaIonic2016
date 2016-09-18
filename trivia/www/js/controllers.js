@@ -126,7 +126,7 @@ var messagesRef = new Firebase('https://primerfirebase-a52b4.firebaseio.com/');
   };
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
+.controller('ChatDetailCtrl', function($scope, $stateParams, user) {
  // $scope.chat = Chats.get($stateParams.chatId);
 
 
@@ -157,12 +157,15 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
  */
 
 
-.controller('TriviaCtrl', function($ionicPopup,$scope, $stateParams,$http,$state) {
+.controller('TriviaCtrl', function($ionicPopup,$ionicPlatform,$scope, $stateParams,$http,$state,$cordovaFile) {
   //$scope.chat = Chats.get($stateParams.name);
- //llega el nombre de usuario actual
+ //llega el nombre de usuario actual 
  $scope.usuario = $stateParams.name;
+ var usuario = $scope.usuario;
+ var datos = [];
+
  var puntaje = 0;
-  var i = 0;
+  var i = 0;  
  // console.log($stateParams.name);
 
   // json con preguntas y respuestas
@@ -200,12 +203,56 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
       $scope.preg = $scope.preguntasYrespuestas[i];
       if(i==4)
       {
-      //ESCRIBIR USUARIO + PUNTAJE EN FIREBASE        
-          $scope.showAlert(puntaje +" puntos para el usuario " + $scope.usuario);        
-          $state.go("tab.deviceMotion");
+        //ESCRIBIR USUARIO + PUNTAJE EN JSON
+        var usuario = $scope.usuario;
+        var archivo = $scope.usuario+".txt";
+        datos.push({usuario:usuario, puntaje:puntaje});
+      
+          console.log(cordova.file.dataDirectory);
+          guardarPuntajeDeUsuario(archivo,datos);
+
+          $scope.showAlert(puntaje +" puntos para el usuario " + $scope.usuario);
+          $state.go("tab.account");
 
       }
 
+  }
+
+  function guardarPuntajeDeUsuario(archivo,datos)
+  {
+     // CHECK
+    $cordovaFile.checkDir(cordova.file.externalApplicationStorageDirectory,usuario)
+        .then(function (success) {
+          // success
+                  $cordovaFile.writeFile(cordova.file.externalApplicationStorageDirectory,usuario+"/"+ archivo, datos,true)      
+                    .then(function (success) {
+                      console.log("Se encontró el directorio correctamente");
+                    }, function (error) {
+                      // error
+                      console.log("Error al escribir archivo",error.message);
+                    });
+            }, function (error) {
+          // error
+          console.log("No se pudo encontrar la ruta",error.message);
+
+              $cordovaFile.createDir(cordova.file.externalApplicationStorageDirectory,usuario, false)
+               .then(function (success) {
+                 // success
+                  $cordovaFile.writeFile(cordova.file.externalApplicationStorageDirectory,usuario+"/"+archivo, datos,true)
+                    .then(function (success) {
+                      console.log("Se escribio correctamente");
+                      }, function (error) {
+                            // error
+                            console.log("Error al escribir archivo",error.message);
+                         }
+                    );
+                }, function (error) {
+                        // error
+                        console.log("No se pudo crear la ruta",error.message);
+
+                   });            
+
+              });   
   };
 
   $scope.showAlert = function(resultado) {
@@ -222,17 +269,15 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
 .controller('DeviceMotionCtrl', function($scope,$cordovaDeviceMotion) {
  // $scope.chat = Chats.get($stateParams.chatId);
 
-//margen tamaño y movimiento
-
 $scope.imagen = "img/images.jpg";
 var img = document.getElementById('foto'); 
 
-$scope.altura = 0;
+//margen tamaño y movimiento
+$scope.alto = 0;
 $scope.ancho = 0;
   var options = { frequency: 10 };
 
  
-//window.innerHTML = -LA MITAD
    var watch = $cordovaDeviceMotion.watchAcceleration(options);
     watch.then(
       null,
@@ -248,12 +293,14 @@ $scope.ancho = 0;
         var Z = result.z;
         var timeStamp = result.timestamp;
 
+       //No está al borde izquierdo, y la posicion X es menor
+       // al total del largo menos el tamaño de la foto
        if(X >= 0 && ((X  * 37.795275591) < (window.innerWidth - img.clientWidth)))
         {
 
-          $scope.altura = parseFloat(X);
-          $scope.a = ($scope.altura  * 37.795275591);
-          $scope.altura = $scope.altura +"cm";
+          $scope.alto = parseFloat(X);
+          $scope.a = ($scope.alto  * 37.795275591);
+          $scope.alto = $scope.alto +"cm";
         }
         if(Y >= 0 && (((Y * 37.795275591)+100) < (window.innerHeight - img.clientHeight)))
         {
@@ -275,6 +322,52 @@ $scope.ancho = 0;
 */
             });   
 })
+
+
+.controller('mejoresPuntajesCtrl', function($scope,Chats,$timeout,$cordovaFile) {
+
+var usuario = Chats.user;
+var archivo = usuario+".txt";
+$scope.mejoresPuntajes = [];
+  traerPuntajes();
+  function traerPuntajes()
+  {
+
+    $cordovaFile.checkDir(cordova.file.externalApplicationStorageDirectory, $scope.usuario)
+      .then(function (success) {
+        // success
+            $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory+"/"+ $scope.usuario, archivo)
+              .then(function (success) {
+               // success
+                    // READ
+                    $cordovaFile.readAsText(cordova.file.externalApplicationStorageDirectory+"/"+ $scope.usuario, archivo)
+                      .then(function (success) {
+                        // success
+                        $scope.mejoresPuntajes.push(success);
+                      }, function (error) {
+                        // error
+                          console.log(error.message);
+
+                      });
+                  }, function (error) {
+                         // error
+                         console.log(error.message);
+            });
+      }, function (error) {      
+        // error
+        console.log(error.message);
+      });
+  };
+
+
+  
+
+  //  $scope.chats = Chats.all();
+  $scope.remove = function(chat) {
+  Chats.remove(chat);
+  };
+})
+
 
 
 .controller('AccountCtrl', function($scope) {

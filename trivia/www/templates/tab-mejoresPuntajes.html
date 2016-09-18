@@ -1,0 +1,11 @@
+<ion-view view-title="Mejores puntajes">
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="puntaje in mejoresPuntajes" type="item-text-wrap" href="#/tab/mejoresPuntajes">
+
+        <h2>{{puntaje.usuario}}</h2>
+        <p>{{puntaje.puntaje}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>    
+      </ion-item>
+  </ion-content>
+</ion-view>

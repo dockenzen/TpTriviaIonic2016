@@ -90,6 +90,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
       }
     })
 
+     .state('tab.mejoresPuntajes', {
+      url: '/mejoresPuntajes',             
+      views: {
+        'tab-mejoresPuntajes':{
+            templateUrl: 'templates/tab-mejoresPuntajes.html',
+            controller: 'mejoresPuntajesCtrl'              
+          }
+        }
+    })
+
      .state('email', {
        url: "/email",    
           templateUrl: "templates/email.html",
