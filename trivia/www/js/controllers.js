@@ -208,8 +208,7 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
         //ESCRIBIR USUARIO + PUNTAJE EN JSON
         usuario = $scope.usuario;
         var archivo = $scope.usuario+".txt";
-        var info = {'usuario':usuario, 'puntaje':puntaje};
-        datos.push(JSON.stringify(info));
+        datos = {usuario:usuario, puntaje:puntaje};        
           //console.log(cordova.file.dataDirectory);
           guardarPuntajeDeUsuario(archivo,datos);
           $state.go("tab.mejoresPuntajes", usuario);
@@ -350,8 +349,8 @@ try{
                     $cordovaFile.readAsText(cordova.file.externalApplicationStorageDirectory,usuario+"/"+archivo)
                       .then(function (success) {
                         // success
-                        //var parseado = JSON.parse(success);                       
-                        $scope.mejoresPuntajes.push(JSON.parse(success));
+                        var parseado = JSON.parse(success);                                               
+                        $scope.mejoresPuntajes.push(parseado);
                         alert($scope.mejoresPuntajes.usuario);
 
                       }, function (error) {
