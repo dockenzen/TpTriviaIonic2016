@@ -4,6 +4,7 @@ angular.module('starter.controllers', [])
 
 $scope.loginData = {};
 
+
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/tab-dash.html', {
     scope: $scope
@@ -160,6 +161,7 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
 .controller('TriviaCtrl', function($ionicPopup,$ionicPlatform,$scope, $stateParams,$http,$state,$cordovaFile) {
   //$scope.chat = Chats.get($stateParams.name);
  //llega el nombre de usuario actual 
+ 
  $scope.usuario = $stateParams.name;
  var usuario = $scope.usuario;
  var datos = [];
@@ -204,23 +206,26 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
       if(i==4)
       {
         //ESCRIBIR USUARIO + PUNTAJE EN JSON
-        var usuario = $scope.usuario;
+        usuario = $scope.usuario;
         var archivo = $scope.usuario+".txt";
-        datos.push({usuario:usuario, puntaje:puntaje});
-      
-          console.log(cordova.file.dataDirectory);
+        var info = {'usuario':usuario, 'puntaje':puntaje};
+        datos.push(JSON.stringify(info));
+          //console.log(cordova.file.dataDirectory);
           guardarPuntajeDeUsuario(archivo,datos);
-
-          $scope.showAlert(puntaje +" puntos para el usuario " + $scope.usuario);
-          $state.go("tab.account");
-
+          $state.go("tab.mejoresPuntajes", usuario);
+         /* var yaGuardo = guardarPuntajeDeUsuario(archivo,datos);
+          yaGuardo.then(function(success){
+                    $state.go("tab.mejoresPuntajes", usuario);
+          });
+*/         
+          //$scope.showAlert(puntaje +" puntos para el usuario " + $scope.usuario);
       }
 
   }
 
   function guardarPuntajeDeUsuario(archivo,datos)
   {
-     // CHECK
+     // CHECK     
     $cordovaFile.checkDir(cordova.file.externalApplicationStorageDirectory,usuario)
         .then(function (success) {
           // success
@@ -324,41 +329,50 @@ $scope.ancho = 0;
 })
 
 
-.controller('mejoresPuntajesCtrl', function($scope,Chats,$timeout,$cordovaFile) {
+.controller('mejoresPuntajesCtrl', function($scope,$timeout,$cordovaFile,$stateParams) {
 
-var usuario = Chats.user;
+
+var usuario = "Leandro";
 var archivo = usuario+".txt";
 $scope.mejoresPuntajes = [];
+
   traerPuntajes();
   function traerPuntajes()
   {
-
-    $cordovaFile.checkDir(cordova.file.externalApplicationStorageDirectory, $scope.usuario)
+try{
+    $cordovaFile.checkDir(cordova.file.externalApplicationStorageDirectory, usuario)
       .then(function (success) {
         // success
-            $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory+ $scope.usuario, archivo)
+            $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory,usuario+"/"+archivo)
               .then(function (success) {
                // success
                     // READ
-                    $cordovaFile.readAsText(cordova.file.externalApplicationStorageDirectory+ $scope.usuario, archivo)
+                    $cordovaFile.readAsText(cordova.file.externalApplicationStorageDirectory,usuario+"/"+archivo)
                       .then(function (success) {
                         // success
-                        $scope.mejoresPuntajes.push(success);
+                        //var parseado = JSON.parse(success);                       
+                        $scope.mejoresPuntajes.push(JSON.parse(success));
+                        alert($scope.mejoresPuntajes.usuario);
+
                       }, function (error) {
                         // error
-                          console.log(error.message);
+                          console.log(error);
 
                       });
                   }, function (error) {
                          // error
-                         console.log(error.message);
+                         console.log(error);
             });
       }, function (error) {      
         // error
-        console.log(error.message);
+        console.log(error);
       });
+    }
+    catch(e)
+    {
+      console.log(e);
+    }
   };
-
 
   
 

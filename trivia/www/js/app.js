@@ -51,6 +51,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   })
 
   .state('tab.chats', {
+    cache:false,
       url: '/chats',
       views: {
         'tab-chats': {
@@ -61,6 +62,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     })
 
   .state('tab.trivia', {
+    cache:false,
       url: '/trivia/:name',
       views: {
         'tab-trivia': {
@@ -81,6 +83,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     })
 
     .state('tab.chat-detail', {
+    cache:false,
       url: '/chats/:chatId',
       views: {
         'tab-chats': {
@@ -91,7 +94,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     })
 
      .state('tab.mejoresPuntajes', {
-      url: '/mejoresPuntajes',             
+      url: '/mejoresPuntajes/:nombre',             
       views: {
         'tab-mejoresPuntajes':{
             templateUrl: 'templates/tab-mejoresPuntajes.html',
