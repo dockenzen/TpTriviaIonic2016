@@ -1,7 +1,7 @@
 <ion-view view-title="Trivia">
   <ion-content class="padding">
+  <div>
     <center><h1>{{preg.pregunta}}</h1></center>
-
     <button class="button button-block button-positive" ng-click="esCorrecta(1)">
     	{{preg.rta1}}
 	</button>
@@ -13,6 +13,6 @@
 	<button class="button button-block button-positive" ng-click="esCorrecta(3)">
     	{{preg.rta3}}
 	</button>
-
+  </div>
   </ion-content>
 </ion-view>

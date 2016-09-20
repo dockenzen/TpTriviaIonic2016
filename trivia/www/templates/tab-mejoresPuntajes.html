@@ -1,15 +1,15 @@
 <ion-view view-title="Mejores puntajes">
-  <ion-content>
-    <ion-list>
-      <ion-item item-icon-right" ng-repeat="puntaje in mejoresPuntajes" type="item-text-wrap" href="#/tab/mejoresPuntajes">
-	<br>		
-	<br>		
-	<br>		
-	<br>		
+  <ion-content class="padding">    
+      <div class="textoMenuPrin" ng-repeat="puntaje in mejoresPuntajes" >
 		<!--<p>{{mejoresPuntajes}}</p>-->
 
-        <p>Felicitaciones {{puntaje.usuario}} !!</p>
-        <p>Tuviste un puntaje de {{puntaje.puntaje}}</p>
-      </ion-item>
+        <h1>Felicitaciones {{puntaje.usuario}} !!</h1>
+        <h2>Tuviste un puntaje de {{puntaje.puntaje}}</h2>
+
+            <ol ng-repeat="account in puntaje.pyr">
+                <li>{{ account.pregunta }}</li>
+                <li>{{ account.respuesta }}</li>
+            </ol>
+      </div>
   </ion-content>
 </ion-view>

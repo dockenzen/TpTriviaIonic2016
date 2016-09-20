@@ -11,4 +11,11 @@ window.open(‘http://example.com’, ‘_blank’);	Loads in the InAppBrowser
 window.open(‘http://example.com’, ‘_blank’, ‘location=no’);	Loads in the InAppBrowser with no location bar
 window.open(‘http://example.com’, ‘_self’);	Loads in the Cordova web view
 
-//
+//mover el cuadrito
+cordova plugin add cordova-plugin-device-motion
+
+//Manejo de archivos
+cordova plugin add cordova-plugin-file
+
+//vibrar
+cordova plugin add cordova-plugin-vibration

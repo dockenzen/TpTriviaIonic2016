@@ -51,41 +51,6 @@ $scope.loginData = {};
    };
 })
 
-.controller('WhatToDoController', function ($scope, $state) {
-  //console.log("llego");
-
-/**
- * Sends an email using Email composer with attachments plugin and using
- * parameter email.
- *
- * @param email
- */
-$scope.sendEmail = function (email) {
-  if (window.plugins && window.plugins.emailComposer) { //check if plugin exists
-
-    window.plugins.emailComposer.showEmailComposerWithCallback(function (result) {
-        console.log("Email sent successfully");
-      },    
-
-      "Ionic Proyect",        // Subject
-      " Buenas",        // Body
-      [email],     // To (Email to send)
-      "pepito@adas.com",        // CC
-      null,        // BCC
-      true,       // isHTML
-      null,        // Attachments
-      null);       // Attachment Data
-
-
-  }
-  else
-  {
-    console.log("no tan los plugins");
-  }
-
-}
-})
-
 .controller('ChatsCtrl', function($scope, Chats,$timeout) {
 
 var messagesRef = new Firebase('https://primerfirebase-a52b4.firebaseio.com/');
@@ -147,24 +112,17 @@ var messagesRef = new Firebase('https://primerfirebase-a52b4.firebaseio.com/');
 
 
 })
-/*XMLHttpRequest cannot load http://www.mocky.io/v2/5185415ba171ea3a00704eed. 
-No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin
- 'http://localhost:8100' is therefore not allowed access. 
-
-PREGUNTAR A OCTAVIO QUE ONDA CON ESTO, PORQUE EN FIREBASE TMB LO TIRABA
-https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi/related
 
 
- */
 
-
-.controller('TriviaCtrl', function($ionicPopup,$ionicPlatform,$scope, $stateParams,$http,$state,$cordovaFile) {
+.controller('TriviaCtrl', function($ionicPopup,$ionicPopup,$ionicPlatform,$scope, $stateParams,$http,$state,$cordovaFile, $cordovaVibration) {
   //$scope.chat = Chats.get($stateParams.name);
  //llega el nombre de usuario actual 
  
  $scope.usuario = $stateParams.name;
  var usuario = $scope.usuario;
  var datos = [];
+ var pregyresp = [];
 
  var puntaje = 0;
   var i = 0;  
@@ -189,19 +147,38 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
    });
 
   $scope.esCorrecta = function(opcion)
-  {
+  { 
+
+    switch(opcion)
+    {
+      case 1:
+        var resp = $scope.preguntasYrespuestas[i].rta1;
+      break;
+      case 2:
+        var resp = $scope.preguntasYrespuestas[i].rta2;
+      break;
+      case 3:
+        var resp = $scope.preguntasYrespuestas[i].rta3;
+      break;
+    }    
+    pregyresp.push({ pregunta: $scope.preguntasYrespuestas[i].pregunta,
+                      respuesta:resp
+
+    });
     
       if($scope.preguntasYrespuestas[i].correcta == opcion)
         {
-          alert("eaaaa");
+          $cordovaVibration.vibrate([200, 100, 200]);
+          $ionicPopup.alert({title: "correctoooo"});          
           puntaje += 100;
-
+          
         }
       else 
         {
-          alert("mal");          
+          $cordovaVibration.vibrate(1000);
+          $ionicPopup.alert({title: "incorrecto"});          
         }
-      //proxima pregunta
+      //proxima pregunta      
       i++;
       $scope.preg = $scope.preguntasYrespuestas[i];
       if(i==4)
@@ -209,19 +186,22 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
         //ESCRIBIR USUARIO + PUNTAJE EN JSON + respuestas
         usuario = $scope.usuario;
         var archivo = $scope.usuario+".txt";
-        datos = {usuario:usuario, puntaje:puntaje};
+        datos = { usuario:usuario,
+                  puntaje:puntaje,
+                    pyr:pregyresp
+                  };
           
           guardarPuntajeDeUsuario(archivo,datos);
           $state.go("tab.mejoresPuntajes", usuario);
          /* var yaGuardo = guardarPuntajeDeUsuario(archivo,datos);
           yaGuardo.then(function(success){
                     $state.go("tab.mejoresPuntajes", usuario);
-          });
-*/         
-          //$scope.showAlert(puntaje +" puntos para el usuario " + $scope.usuario);
-      }
+          });*/
+        }
 
   }
+
+
 
   function guardarPuntajeDeUsuario(archivo,datos)
   {
@@ -253,7 +233,7 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
                     );
                 }, function (error) {
                         // error
-                        console.log("No se pudo crear la ruta",error.message);
+                        console.log("No se pudo crear la ruta",error.name);
 
                    });            
 
@@ -350,9 +330,9 @@ try{
                     $cordovaFile.readAsText(cordova.file.externalApplicationStorageDirectory,usuario+"/"+archivo)
                       .then(function (success) {
                         // success
-                        var parseado = JSON.parse(success);                                               
-                        $scope.mejoresPuntajes.push(parseado);
-
+                        //alert(success);
+                        var parseado = JSON.parse(success);
+                        $scope.mejoresPuntajes.push(parseado);                                                                      
                       }, function (error) {
                         // error
                           console.log(error);
@@ -364,12 +344,12 @@ try{
             });
       }, function (error) {      
         // error
-        console.log(error);
+        alert(error);
       });
     }
     catch(e)
     {
-      console.log(e);
+      //alert(e);
     }
   };
 
