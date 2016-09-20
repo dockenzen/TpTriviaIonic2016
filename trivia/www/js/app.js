@@ -103,12 +103,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
         }
     })
 
-     .state('email', {
-       url: "/email",    
-          templateUrl: "templates/email.html",
-          controller: 'WhatToDoController'        
-    })
-
   .state('tab.account', {
     url: '/account',
     views: {

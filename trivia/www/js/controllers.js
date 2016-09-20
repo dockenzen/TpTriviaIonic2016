@@ -173,12 +173,12 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
   // json con preguntas y respuestas
   // http://www.mocky.io/v2/57d8b1c60f00005c11831471
 
-  $http.get('http://www.mocky.io/v2/57d8b1c60f00005c11831471')
+  $http.get('https://primerfirebase-a52b4.firebaseio.com/preguntas.json')
   .then(function(respuesta) {       
 
          $scope.preguntasYrespuestas = respuesta.data;
          $scope.preg = $scope.preguntasYrespuestas[0];
-
+         
          //console.log(respuesta.data);
 
     },function (error) {
@@ -195,6 +195,7 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
         {
           alert("eaaaa");
           puntaje += 100;
+
         }
       else 
         {
@@ -205,11 +206,11 @@ https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeac
       $scope.preg = $scope.preguntasYrespuestas[i];
       if(i==4)
       {
-        //ESCRIBIR USUARIO + PUNTAJE EN JSON
+        //ESCRIBIR USUARIO + PUNTAJE EN JSON + respuestas
         usuario = $scope.usuario;
         var archivo = $scope.usuario+".txt";
-        datos = {usuario:usuario, puntaje:puntaje};        
-          //console.log(cordova.file.dataDirectory);
+        datos = {usuario:usuario, puntaje:puntaje};
+          
           guardarPuntajeDeUsuario(archivo,datos);
           $state.go("tab.mejoresPuntajes", usuario);
          /* var yaGuardo = guardarPuntajeDeUsuario(archivo,datos);
@@ -351,7 +352,6 @@ try{
                         // success
                         var parseado = JSON.parse(success);                                               
                         $scope.mejoresPuntajes.push(parseado);
-                        alert($scope.mejoresPuntajes.usuario);
 
                       }, function (error) {
                         // error
