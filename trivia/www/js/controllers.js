@@ -53,7 +53,7 @@ $scope.loginData = {};
 
 .controller('ChatsCtrl', function($scope, Chats,$timeout) {
 
-var messagesRef = new Firebase('https://primerfirebase-a52b4.firebaseio.com/');
+var messagesRef = new Firebase('https://primerfirebase-a52b4.firebaseio.com/chat');
 
   $scope.chats = [];
   
@@ -73,16 +73,9 @@ var messagesRef = new Firebase('https://primerfirebase-a52b4.firebaseio.com/');
      
 
         $scope.chats.push(message);
-        //console.log($scope.chats);
-                                  }
+                    }
               });
-    //$scope.chats = 
-    //console.log(fecha);
-    //$('<div/>').text(message.mensaje+" -> Enviado a las "+hora+":"+minutos+":"+segundos).prepend($('<em/>').text(message.usuario+': ')).appendTo($('#messagesDiv'));
-    
-    /*$('<div/>').text(message.mensaje+" -> Enviado a las "+message.fechaIngreso).prepend($('<em/>').text(message.usuario+': ')).appendTo($('#messagesDiv'));
-    $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
-    */
+
   });
   
 
@@ -94,8 +87,6 @@ var messagesRef = new Firebase('https://primerfirebase-a52b4.firebaseio.com/');
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, user) {
  // $scope.chat = Chats.get($stateParams.chatId);
-
-
   $scope.enviarMensaje = function (){
 /*  
   var text = $scope.message;
@@ -192,11 +183,7 @@ var messagesRef = new Firebase('https://primerfirebase-a52b4.firebaseio.com/');
                   };
           
           guardarPuntajeDeUsuario(archivo,datos);
-          $state.go("tab.mejoresPuntajes", usuario);
-         /* var yaGuardo = guardarPuntajeDeUsuario(archivo,datos);
-          yaGuardo.then(function(success){
-                    $state.go("tab.mejoresPuntajes", usuario);
-          });*/
+          $state.go("tab.mejoresPuntajes", {'name':usuario});
         }
 
   }
@@ -311,8 +298,8 @@ $scope.ancho = 0;
 
 .controller('mejoresPuntajesCtrl', function($scope,$timeout,$cordovaFile,$stateParams) {
 
-
-var usuario = "Leandro";
+alert($stateParams.name)
+var usuario = $stateParams.name;;
 var archivo = usuario+".txt";
 $scope.mejoresPuntajes = [];
 
@@ -330,7 +317,7 @@ try{
                     $cordovaFile.readAsText(cordova.file.externalApplicationStorageDirectory,usuario+"/"+archivo)
                       .then(function (success) {
                         // success
-                        //alert(success);
+                        
                         var parseado = JSON.parse(success);
                         $scope.mejoresPuntajes.push(parseado);                                                                      
                       }, function (error) {
@@ -344,20 +331,13 @@ try{
             });
       }, function (error) {      
         // error
-        alert(error);
+        //alert(error);
       });
     }
     catch(e)
     {
       //alert(e);
     }
-  };
-
-  
-
-  //  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-  Chats.remove(chat);
   };
 })
 

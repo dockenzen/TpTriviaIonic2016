@@ -94,7 +94,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
     })
 
      .state('tab.mejoresPuntajes', {
-      url: '/mejoresPuntajes/:nombre',             
+      url: '/mejoresPuntajes/:name',             
       views: {
         'tab-mejoresPuntajes':{
             templateUrl: 'templates/tab-mejoresPuntajes.html',

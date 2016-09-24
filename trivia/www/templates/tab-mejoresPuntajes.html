@@ -3,11 +3,11 @@
       <div class="textoMenuPrin" ng-repeat="puntaje in mejoresPuntajes" >
 		<!--<p>{{mejoresPuntajes}}</p>-->
 
-        <h1>Felicitaciones {{puntaje.usuario}} !!</h1>
-        <h2>Tuviste un puntaje de {{puntaje.puntaje}}</h2>
+        <h1>Felicitaciones {{puntaje.usuario}}</h1>
+        <h2>Obtuviste {{puntaje.puntaje}} puntos</h2>
 
             <ol ng-repeat="account in puntaje.pyr">
-                <li>{{ account.pregunta }}</li>
+                <li><h3>{{ account.pregunta }}</h3></li>
                 <li>{{ account.respuesta }}</li>
             </ol>
       </div>
